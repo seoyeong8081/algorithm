@@ -47,7 +47,7 @@ public class Solution_8382_방향전환 {
 			
 			out.append("#").append(tc).append(" ").append(cnt).append("\n");
 		}
-		
+		 
 		System.out.println(out);
 	}
 	
