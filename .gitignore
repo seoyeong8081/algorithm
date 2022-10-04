@@ -1,0 +1,6 @@
+/.metadata/
+./java/bin/
+./java/.classpath
+./java/.project
+./cpp/inendl
+./cpp/*/*/*.exe
