@@ -1,6 +1,8 @@
 /.metadata/
+/.recommenders/
 /java/bin/
 /java/.classpath
 /java/.project
+/java/.metadata/
 /cpp/inendl
 /cpp/*/*/*.exe

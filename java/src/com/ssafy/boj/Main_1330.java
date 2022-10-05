@@ -1,8 +1,8 @@
-package com.baekjoon.level1;
+package com.ssafy.boj;
 
 import java.util.Scanner;
 
-public class Main1330 {
+public class Main_1330 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

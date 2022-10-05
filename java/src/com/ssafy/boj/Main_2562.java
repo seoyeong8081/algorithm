@@ -1,10 +1,10 @@
-package com.baekjoon.level1;
+package com.ssafy.boj;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Main2562 {
+public class Main_2562 {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub

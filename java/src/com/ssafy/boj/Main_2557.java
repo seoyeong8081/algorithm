@@ -1,6 +1,6 @@
-package com.baekjoon.level1;
+package com.ssafy.boj;
 
-public class Main2557 {
+public class Main_2557 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

@@ -34,7 +34,8 @@ public class Solution_1249_보급로2 {
 		
 		int N;
 		String input;
-		int curR, curC, nr, nc;
+//		int curR, curC;
+		int nr, nc;
 //		int tmpR, tmpC, tmpTime;
 //		int curMinTime;
 		
