@@ -2,131 +2,131 @@ package com.ssafy.boj;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main_16236_아기상어 {
 	
+	static int[][] map;
+	static int N;
+	static int fish[] = new int[7];;
+	
+	static int time, sharkSize, eatNum;
+	
 	public static void main(String[] args) throws Exception{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(in.readLine());
+		N = Integer.parseInt(in.readLine());
 		
-		int[][] map = new int[N][N];
-		boolean[][] isVisited = new boolean[N][N];
+		map = new int[N][N];
+		
+		int sharkR = 0;
+		int sharkC = 0;
+		
 		StringTokenizer st;
-		Deque<Integer> sharkR = new ArrayDeque<Integer>();
-		Deque<Integer> sharkC = new ArrayDeque<Integer>();
-		
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(in.readLine());
 			for (int j = 0; j < N; j++) {
 				map[i][j] = Integer.parseInt(st.nextToken());
 				if (map[i][j] == 9) {
-					isVisited[i][j] = true;
-					sharkR.add(i);
-					sharkC.add(j);
-					map[i][j] = 0; //9 없애버리기 길막하니까
+					map[i][j] = 0;
+					sharkR = i;
+					sharkC = j;
+				} else if (map[i][j] != 0) {
+					fish[map[i][j]]++;
 				}
 			}
 		}
 		
-		int sharkSize = 2;
-		int eatNum = 0;
-		int ans = 0;
+		time = 0;
+		sharkSize = 2;
+		eatNum = 0;
 		
-		int[] dr = {-1, 0, 0, 1}; // 상좌 먼저
+		
+		int[] dr = {-1, 0, 0, 1};
 		int[] dc = {0, -1, 1, 0};
-		
-		int qSize;
-		int curR, curC;
-		int nextR, nextC;
-		int next;
-		int dep = 0;;
-		
-		while(!sharkR.isEmpty()) {
-			qSize = sharkR.size();
-			dep++;
-			
-			System.out.println(sharkR); //test
-			System.out.println(sharkC);
-			System.out.println(ans);
-			
-			sameB : while(qSize != 0) {
-				curR = sharkR.poll();
-				curC = sharkC.poll();
-				qSize--;
-				
-				for (int i = 0; i < 4; i++) {
-					nextR = curR + dr[i];
-					nextC = curC + dc[i];
-					
-					if (nextR >= 0 && nextR < N && nextC >= 0 && nextC < N && map[nextR][nextC] <= sharkSize && !isVisited[nextR][nextC]) {
-						next = map[nextR][nextC];
-						if (next > 0 && next < sharkSize) {
-							// 예외처리
-							if (i == 3) {
-								if (sharkR.size() > 0 && sharkR.peek() < nextR) {
-									int tmpR = sharkR.peek();
-									int tmpC = sharkC.peek() + 1;
-//									nextR = sharkR.poll();
-//									nextC = sharkC.poll() + 1;
-									if (tmpC > curC + 2 && tmpC >= 0 && tmpC < N && map[tmpR][tmpC] < sharkSize && map[tmpR][tmpC] > 0 && !isVisited[nextR][nextC]) {
-										nextR = sharkR.poll();
-										nextC = sharkC.poll() + 1;
-									}
-								}
-							}
-							
-							//isVisited 초기화 queue 초기화 queue에 다음 위치만 넣고 다시 시작
-							for (int row = 0; row < N; row++) {
-								for (int col = 0; col < N; col++) {
-									isVisited[row][col] = false;
-								}
-							}
-							
-							sharkR.clear();
-							sharkC.clear();
-							
-							sharkR.add(nextR);
-							sharkC.add(nextC);
-							isVisited[nextR][nextC] = true;
-							
-							ans += dep;
-							dep = 0;
-							map[nextR][nextC] = 0;
-							if (++eatNum == sharkSize) {
-								sharkSize++;
-								eatNum = 0;
-							}
-							
-//							System.out.println(nextR + ", " + nextC); //test
-							
-							break sameB;
-						}
-						isVisited[nextR][nextC] = true;
-						
-						if (i == 2) { // 오른쪽 넣을때 이전께 아래에 있으면 위치 바꿔주기 // 얘도 C+1로 넣어주는 건가??? dep처리를 잘못?
-							if (sharkR.size() > 0 && sharkR.peekFirst() > nextR) {
-								int tmpR = sharkR.pollFirst();
-								int tmpC = sharkC.pollFirst();
-								sharkR.add(nextR);
-								sharkC.add(nextC);
-								sharkR.add(tmpR);
-								sharkC.add(tmpC);
-//								dep++;
-							}
-						}
-						
-						sharkR.add(nextR);
-						sharkC.add(nextC);
-					}
+		boolean isQueEmpty = false;
+		while (true) {
+			// 먹을 수 있는 물고기 있는지 체크
+			boolean isEatPossible = false;
+			int fishSearchIdx = Math.min(sharkSize, 7);
+			for (int i = 1; i < fishSearchIdx; i++) {
+				if (fish[i] != 0) {
+					isEatPossible = true;
+					break;
 				}
 			}
+			if (!isEatPossible || isQueEmpty) break;
+			
+			// 큐에 현재 위치 넣기
+			// PriorityQueue를 쓰니깐 매번 정렬해서 문제임 list에 넣고 필요할 때 정렬
+//			PriorityQueue<int[]> que = new PriorityQueue<>(new Comparator<int[]>() {
+//				@Override
+//				public int compare(int[] o1, int[] o2) {
+//					return o1[2] == o2[2] ? o1[3] - o2[3] : o1[2] - o2[2] ;
+//				}
+//			});
+			List<int[]> que = new ArrayList<>();
+			boolean[][] isVisited = new boolean[N][N];
+			que.add(new int[] {sharkR, sharkC, 0, 0, 0}); // r, c, 상어위치로부터 dr, dc, 거리
+			isVisited[sharkR][sharkC] = true;
+			
+			int[] cur;
+			int[] next = new int[5];
+			int queSize;
+			int eatableNum;
+			EAT : while (!que.isEmpty()) {
+				queSize = que.size();
+				eatableNum = 0;
+				while (queSize != 0) {
+					cur = que.get(--queSize);
+					que.remove(queSize);
+					// poll할 때 먹을 수 있는 물고기인지 체크
+					if (map[cur[0]][cur[1]] != 0 && map[cur[0]][cur[1]] < sharkSize) {
+						// 물고기 먹고 위치 바꾸기
+						if (++eatNum == sharkSize) {
+							eatNum = 0;
+							sharkSize++;
+						}
+						sharkR = cur[0];
+						sharkC = cur[1];
+						fish[map[cur[0]][cur[1]]]--;
+						map[sharkR][sharkC] = 0;
+						time += cur[4];
+						break EAT;
+					}
+					
+					for (int i = 0; i < 4; i++) {
+						next[0] = cur[0] + dr[i];
+						next[1] = cur[1] + dc[i];
+						// 자신보다 크기 큰 물고기 있는 칸은 못감
+						if (next[0] < 0 || next[0] >= N || next[1] < 0 || next[1] >= N || isVisited[next[0]][next[1]] || map[next[0]][next[1]] > sharkSize) continue;
+						
+						next[2] = cur[2] + dr[i];
+						next[3] = cur[3] + dc[i];
+						// next로 넣으면 안되나???
+						que.add(new int[] {next[0], next[1], next[2], next[3], cur[4] + 1});
+						isVisited[next[0]][next[1]] = true;
+						if (map[next[0]][next[1]] < sharkSize) eatableNum++;
+					}
+					if (que.isEmpty()) isQueEmpty = true;
+				}
+				if (eatableNum > 1) {
+					que.sort(new Comparator<int[]>() {
+
+						@Override
+						public int compare(int[] o1, int[] o2) {
+							return o1[2] == o2[2] ? o2[3] - o1[3] : o2[2] - o1[2] ;
+						}
+					});
+				}
+			}
+			
 		}
-		
-		System.out.println(ans);
+		System.out.println(time);
 	}
+	
+	
 	
 }
