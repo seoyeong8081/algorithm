@@ -86,8 +86,6 @@ public class Main_19236_청소년상어 {
 		fishC[map[nr][nc]] = nc;
 	}
 	
-	// sharkMove를 bfs로 할 수 있나?? bfs + backtracking ?? nono?? 어차피 끝까지 가서 업데이트해야할듯
-	// bfs dfs 둘다 해보기?? 
 	static int maxNum = 0;
 	
 	private static void dfs(int cnt) {
@@ -113,11 +111,6 @@ public class Main_19236_청소년상어 {
 			
 			
 			fishSize = map[nr][nc];
-//			if (cnt + fishSize <= maxNum) {
-//				nr += dirR;
-//				nc += dirC;
-//				continue;
-//			}
 			
 			int[][] mapCopy = new int[4][4];
 			int[][] dirCopy = new int[4][4];

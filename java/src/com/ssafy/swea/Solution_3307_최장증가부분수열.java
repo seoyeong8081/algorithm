@@ -20,7 +20,6 @@ public class Solution_3307_최장증가부분수열 {
 			N = Integer.parseInt(in.readLine());
 			
 			int[] dp = new int[N];
-//			Arrays.fill(dp, 1001);
 			
 			// binary_search 이용
 			st = new StringTokenizer(in.readLine());
@@ -33,8 +32,6 @@ public class Solution_3307_최장증가부분수열 {
 					dpSize++;
 				}
 				
-//				// debug
-//				System.out.println(pos);
 			}
 			
 			
