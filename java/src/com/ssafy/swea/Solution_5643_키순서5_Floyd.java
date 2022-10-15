@@ -23,8 +23,6 @@ public class Solution_5643_키순서5_Floyd {
 			
 			int[][] adjMatrix = new int[N+1][N+1];
 			
-			for (int i = 1; i <= N; i++) adjMatrix[i][0] = -1; // 탐색하지 않은 상태의 초기값
-			
 			StringTokenizer st = null;
 			for (int m = 0; m < M; m++) {
 				st = new StringTokenizer(in.readLine());

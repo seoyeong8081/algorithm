@@ -67,7 +67,7 @@ public class Solution_5643_키순서4_DFS_Memoization {
 			}
 		}
 		
-		// 자신보다 큰 ㅈ어점의 탐색을 모두 완료 메모하기
+		// 자신보다 큰 정점의 탐색을 모두 완료 메모하기
 		int cnt = 0;
 		for (int k = 1; k <= N; k++) cnt += adjMatrix[cur][k];
 		
