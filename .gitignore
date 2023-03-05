@@ -6,3 +6,6 @@
 /java/.metadata/
 /cpp/inendl
 /cpp/*/*/*.exe
+**/.DS_Store
+**/*.dSYM/
+**/*.o
